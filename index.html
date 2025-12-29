@@ -12,7 +12,7 @@
         font-family: 'Rajdhani', sans-serif;
         background-color: #050505;
         color: #e0e0e0;
-        overflow: hidden;
+        overflow-x: hidden;
       }
       
       .font-display {
@@ -20,7 +20,7 @@
       }
 
       .nexus-glow {
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.4), inset 0 0 20px rgba(0, 255, 255, 0.1);
       }
       
       .active-pulse {
@@ -29,22 +29,30 @@
 
       @keyframes pulse-ring {
         0% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7); }
-        70% { box-shadow: 0 0 0 15px rgba(0, 255, 255, 0); }
+        70% { box-shadow: 0 0 0 20px rgba(0, 255, 255, 0); }
         100% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0); }
       }
+
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
     </style>
-  <script type="importmap">
+    <script type="importmap">
 {
   "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
+    "react-dom": "https://esm.sh/react-dom@^19.2.3",
+    "react-dom/client": "https://esm.sh/react-dom@^19.2.3/client",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
   }
 }
 </script>
-</head>
+  </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
   </body>
 </html>

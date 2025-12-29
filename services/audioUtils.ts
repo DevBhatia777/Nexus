@@ -67,8 +67,8 @@ export async function playAudioBuffer(
   startTime: number,
   playbackRate: number = 1.0,
   volume: number = 1.0,
-  lowPassFreq: number = 24000, // Default is no filter
-  bassGain: number = 0 // Extra bass boost
+  lowPassFreq: number = 24000, 
+  bassGain: number = 8 // Default bass boost for deepness
 ): Promise<{ source: AudioBufferSourceNode, duration: number, gainNode: GainNode }> {
   const buffer = ctx.createBuffer(1, float32Data.length, 24000);
   buffer.copyToChannel(float32Data, 0);
@@ -76,21 +76,22 @@ export async function playAudioBuffer(
   const source = ctx.createBufferSource();
   const gainNode = ctx.createGain();
   
-  // Filter for deepness/whisper effects
+  // High-frequency cut (Whisper mode)
   const lowPassFilter = ctx.createBiquadFilter();
   lowPassFilter.type = 'lowpass';
   lowPassFilter.frequency.value = lowPassFreq;
 
+  // Bass boost (Deep voice mode)
   const bassFilter = ctx.createBiquadFilter();
   bassFilter.type = 'lowshelf';
-  bassFilter.frequency.value = 200;
-  bassFilter.gain.value = bassGain; // Boost lows for "deep" voice
+  bassFilter.frequency.value = 180; // Focus on sub-bass frequencies
+  bassFilter.gain.value = bassGain; 
 
   source.buffer = buffer;
   source.playbackRate.value = playbackRate;
   gainNode.gain.value = volume;
 
-  // Chain: Source -> Bass Boost -> Low Pass (Whisper) -> Gain -> Output
+  // Signal chain: Source -> Bass Boost -> Whisper/Filter -> Gain -> Output
   source.connect(bassFilter);
   bassFilter.connect(lowPassFilter);
   lowPassFilter.connect(gainNode);
